@@ -135,7 +135,8 @@ function setUpPiano(panel){
         bounds:[0,.6,1,.2],
      value: 'test label',
      size: 14
- })
+ });
+ 
  let piano1 = new Interface.Piano({ 
   bounds:[0,0,1,.5],  
   startletter : "C",
@@ -144,15 +145,20 @@ function setUpPiano(panel){
    endoctave : 5,
    noteLabels:true,
      
-     onvaluechange: function PlayNote(outputs,notenum,time,dur){
-
+     onvaluechange: function(){
+      var freq = Math.round(this.frequency);
+      var midi = freqToMidi(freq);
+      l.setValue("Freq:" + freq + " " + "MIDI note: " + midi);
+      
+      if(this.value){
+       PlayNote(outputs, midi, 0, dur);
      }
     
  });
 
 
 panel.background = 'black';
-panel.add(piano1);
+panel.add(piano1, l);
 }
 
 
